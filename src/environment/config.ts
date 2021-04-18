@@ -11,7 +11,7 @@ interface IConfig {
 }
 
 const config: IConfig = {
-  name: "Auth Service",
+  name: "AUTH-SERVICE",
   baseAPIRoute: "api",
   port: parseInt(process.env.PORT!) || 8080,
   messageQ: process.env.MESSAGEQ || "amqp://rabbitmq",
@@ -21,6 +21,6 @@ const config: IConfig = {
   },
 };
 
-config.startMessage = `${config.name} is running on port:[${config.port}]`;
+config.startMessage = `(${config.name}):running on port:[${config.port}]`;
 
 export default config;
