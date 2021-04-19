@@ -1,9 +1,9 @@
-import koaRouter from "koa-router";
+import Router from "koa-router";
 import { config } from "../environment";
 
 const api = "auth";
 
-const router = new koaRouter();
+const router = new Router();
 
 // /api/auth
 router.prefix(`/${config.baseAPIRoute}/${api}`);
