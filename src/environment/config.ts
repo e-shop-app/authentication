@@ -1,24 +1,22 @@
-interface IConfig {
-  name: string;
-  baseAPIRoute: string;
-  port: number;
-  messageQ: string;
-  environment: string;
-  db: {
-    uri: string;
-  };
-  startMessage?: string;
-}
+import Config from "../@types/config";
 
-const config: IConfig = {
+const config: Config = {
   name: "AUTH-SERVICE",
   baseAPIRoute: "api",
-  port: parseInt(process.env.PORT!) || 8080,
+  port: parseInt(process.env.PORT!),
   messageQ: process.env.MESSAGEQ || "amqp://rabbitmq",
   environment: process.env.NODE_ENV || "development",
   db: {
-    uri: process.env.DB_URI || "",
+    url: process.env.DB_URL || "",
+    host: process.env.DB_HOST || "localhost",
+    port: parseInt(process.env.DB_PORT!),
+    username: process.env.DB_USERNAME || "",
+    password: process.env.DB_PASSWORD || "",
+    database: process.env.DB_NAME || "",
+    connectedMessage: "Synchronization with DB done.",
+    failedConnection: "Failed synchronization with DB.",
   },
+  issuer: process.env.ISSUER_BASE_URL || "",
 };
 
 config.startMessage = `(${config.name}):running on port:[${config.port}]`;
