@@ -1,21 +1,22 @@
 import { Context } from "koa";
 import axios from "axios";
 import logger from "winston";
+import { Message } from "amqp-ts-async";
 import colors from "colors";
 import { User } from "../entities";
 import { AuthService } from "../services";
 import { config } from "../environment";
 import UserInfo from "../@types/userinfo";
-import { Message } from "amqp-ts-async";
 
 export const authController = {
   authenticate: async (ctx: Context): Promise<void> => {
     try {
-      const { cookies, request } = ctx;
-      const token: string | undefined = request.headers.authorization?.slice(7);
+      const token:
+        | string
+        | undefined = ctx.request.headers.authorization?.slice(7);
 
       if (token) {
-        cookies.set("_token", token, {
+        ctx.cookies.set("_token", token, {
           httpOnly: true,
           sameSite: true,
           secure: config.environment === "development" ? true : false,
@@ -56,7 +57,6 @@ export const authController = {
       );
     } catch (error) {
       logger.error(colors.bgRed.black.bold(`Error creating user - ${error}`));
-      return Promise.reject(`Error creating user`);
     }
   },
 };

@@ -7,7 +7,7 @@ import { authController } from "../../controllers";
 const exchangeName = "USER_ADDED";
 const queueName = "";
 const connection = new Amqp.Connection(config.messageQ);
-const exchange = connection.declareExchange(exchangeName, "auth", {
+const exchange = connection.declareExchange(exchangeName, "fanout", {
   durable: true,
 });
 const queue = connection.declareQueue(queueName, { exclusive: true });
