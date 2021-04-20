@@ -14,9 +14,9 @@ const queue = connection.declareQueue(queueName, { exclusive: true });
 
 queue.bind(exchange);
 
-export const start = () => {
+export const start = async () => {
   try {
-    queue.activateConsumer(authController.add);
+    await queue.activateConsumer(authController.add);
   } catch (error) {
     logger.error(
       colors.bgWhite.green.bold(

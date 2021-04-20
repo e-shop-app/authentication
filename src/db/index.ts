@@ -8,7 +8,7 @@ export const connectDB = async (
 ): Promise<void> => {
   const { connectedMessage, failedConnection, url } = config.db;
 
-  const connection: Connection = await getConnectionManager().create({
+  const connection: Connection = getConnectionManager().create({
     type: "postgres",
     url,
   });

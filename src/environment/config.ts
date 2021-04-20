@@ -13,8 +13,8 @@ const config: Config = {
     username: process.env.DB_USERNAME || "",
     password: process.env.DB_PASSWORD || "",
     database: process.env.DB_NAME || "",
-    connectedMessage: "Synchronization with DB done.",
-    failedConnection: "Failed synchronization with DB.",
+    connectedMessage: "DB connection success.",
+    failedConnection: "DB connection failure.",
   },
   issuer: process.env.ISSUER_BASE_URL || "",
 };
