@@ -1,15 +1,12 @@
-import { Context } from "koa";
+import { Context, Next } from "koa";
 import axios from "axios";
-import logger from "winston";
-import { Message } from "amqp-ts-async";
-import colors from "colors";
 import { User } from "../entities";
-import { AuthService } from "../services";
+import { AuthService, publishToQueue } from "../services";
 import { config } from "../environment";
 import UserInfo from "../@types/userinfo";
 
 export const authController = {
-  authenticate: async (ctx: Context): Promise<void> => {
+  authenticate: async (ctx: Context, next: Next): Promise<void> => {
     try {
       const token:
         | string
@@ -33,11 +30,15 @@ export const authController = {
 
         const user: User | null = await AuthService.login(data.sub);
 
-        if (!user) {
-          ctx.throw(404, "User not found!");
-        }
+        if (user) {
+          ctx.body = user;
+          await next();
+        } else {
+          const user: User = await AuthService.register(data);
+          await next();
 
-        ctx.body = user;
+          ctx.body = user;
+        }
       } else {
         ctx.throw(403, "Unauthorized access!");
       }
@@ -46,17 +47,22 @@ export const authController = {
     }
   },
 
-  add: async (msg: Message): Promise<void> => {
-    let user: UserInfo;
+  add: async (ctx: Context, next: Next): Promise<void> => {
     try {
-      user = JSON.parse(msg.content.toString());
-      await AuthService.register(user);
+      let {
+        queueName,
+        payload,
+      }: { queueName: string; payload: Buffer } = ctx.request.body;
 
-      logger.info(
-        colors.bgWhite.green.bold(`User successfully created - ${user.email}`)
-      );
+      await publishToQueue(queueName, payload);
+
+      ctx.body = { "message-sent": true };
+
+      await next();
     } catch (error) {
-      logger.error(colors.bgRed.black.bold(`Error creating user - ${error}`));
+      console.log(error);
+
+      ctx.throw(500, "We've encounted an error. Please try again later!");
     }
   },
 };

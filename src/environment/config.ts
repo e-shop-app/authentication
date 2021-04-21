@@ -4,7 +4,7 @@ const config: Config = {
   name: "AUTH-SERVICE",
   baseAPIRoute: "api",
   port: parseInt(process.env.PORT!),
-  messageQ: process.env.MESSAGEQ || "amqp://rabbitmq",
+  messageQ: process.env.MESSAGEQ || "amqps://rabbitmq",
   environment: process.env.NODE_ENV || "development",
   db: {
     url: process.env.DB_URL || "",
