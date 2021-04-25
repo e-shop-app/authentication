@@ -6,21 +6,21 @@ Environment variables list.
 
 ```ts
 // Node environment in use "development", "staging", "production".
-NODE_ENV = ""
+NODE_ENV=""
 //  Port on wich the server is listening.
-PORT = ""
+PORT=""
 // Rabbitmq url
-MESSAGEQ = ""
+MESSAGEQ=""
 // Database url : "postgres://user:password@host:port/your_database"
-DB_URL = ""
+DB_URL=""
 // Database port
-DB_PORT = ""
+DB_PORT=""
 // Database username
-DB_USERNAME = ""
+DB_USERNAME=""
 // Database password
-DB_PASSWORD = ""
+DB_PASSWORD=""
 // Database name
-DB_NAME = ""
+DB_NAME=""
 // Auth0 issuer base url
-ISSUER_BASE_URL = ""
+ISSUER_BASE_URL=""
 ```
