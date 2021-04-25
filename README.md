@@ -4,7 +4,7 @@ Service charged to handle users authentication with auth0.
 
 Environment variables list.
 
-```env
+```ts
 // Node environment in use "development", "staging", "production".
 NODE_ENV = ""
 //  Port on wich the server is listening.
